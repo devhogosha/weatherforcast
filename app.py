@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.secret_key = "super secret key"
 api_key = "07639ce6679d61f3365f70183d1369e4"
 github = "https://github.com/devhogosha"
+source_code = "https://github.com/devhogosha/weatherforcast"
 
 #connects to database, retrieves all city names, stores in option
 conn = sqlite3.connect('weather.db')
@@ -98,20 +99,20 @@ def plot():
                                 tools="hover",tooltips=[("City", "@x"), ("Temperature", "@y°C")],  width =1080, height = 720)
                 plot.circle(x=selected_option, y=plot_temp_data, size=15, line_color=None, fill_color=colors)
                 script, div = components(plot)
-                return render_template("plot.html", script=script, div=div, ploty=plot_option)
+                return render_template("plot.html", script=script, div=div, ploty=plot_option, source_code=source_code)
             case "bar chart":
                 plot = figure(x_range=selected_option, title=f"{plot_option.title()} Showing Daily Temperature Against Each City", x_axis_label="CITIES", y_axis_label="DAILY WEATHER TEMPERATURE °C", toolbar_location=None,
                                 tools="hover",tooltips=[("City", "@x"), ("Temperature", "@top°C")],  width =1080, height = 720)
                 plot.vbar(x=selected_option, top=plot_temp_data, color=colors, width=0.5)
                 script, div = components(plot)
-                return render_template("plot.html", script=script, div=div, ploty=plot_option)
+                return render_template("plot.html", script=script, div=div, ploty=plot_option, source_code=source_code)
             case "line plot":
                 plot = figure(x_range=selected_option, title=f"{plot_option.title()} Showing Daily Temperature Against Each City", x_axis_label="CITIES", y_axis_label="DAILY WEATHER TEMPERATURE °C", toolbar_location=None,
                                 tools="hover",tooltips=[("City", "@x"), ("Temperature", "@y°C")],  width =1080, height = 720)
                 plot.line(x=selected_option, y=plot_temp_data, line_width=2)
                 plot.circle(x=selected_option, y=plot_temp_data, size=8, line_color=None, fill_color=colors)
                 script, div = components(plot)
-                return render_template("plot.html", script=script, div=div, ploty=plot_option)
+                return render_template("plot.html", script=script, div=div, ploty=plot_option, source_code=source_code)
     else:
         flash("Please Select Two Or More Cities For Plotting")
         return redirect("/all_weather_report")
@@ -128,11 +129,11 @@ def weather_data():
             get_weather_data(stored_city)
             display_weather_data(stored_city)
             
-            return render_template("index.html",city=stored_city,data_result = data_result, github=github)
+            return render_template("index.html",city=stored_city,data_result = data_result, github=github, source_code=source_code)
         else:
-            return render_template("index.html", github=github)
+            return render_template("index.html", github=github, source_code=source_code)
     except:
-        return render_template("index.html", github=github)
+        return render_template("index.html", github=github, source_code=source_code)
 
 #Defines database route for displaying and plotting weather data
 @app.route("/all_weather_report")
@@ -143,7 +144,7 @@ def all_weather_report():
     cursor.execute("SELECT * FROM weather_data")
     all_weather_data = cursor.fetchall()
     conn.close()
-    return render_template("all_weather_report.html", all_weather_data=all_weather_data, get_city_names=options, graph_names=plot_options, github=github)
+    return render_template("all_weather_report.html", all_weather_data=all_weather_data, get_city_names=options, graph_names=plot_options, github=github, source_code=source_code)
 
 #Defines delete route for deleting weather data
 @app.route("/delete", methods=["POST"])
@@ -188,7 +189,7 @@ def about():
     limitations = """
     The program requires internet access to get weather data from OpenWeatherMap API."""
 
-    return render_template("about.html", introduction=introduction, description=description, limitations=limitations, github=github)
+    return render_template("about.html", introduction=introduction, description=description, limitations=limitations, github=github, source_code=source_code)
 
 # Run Flask application
 if __name__ == '__main__':
