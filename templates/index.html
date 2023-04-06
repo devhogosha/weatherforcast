@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Forecast Report</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+ <style>
+    body{
+        min-height : 100vh;
+        text-align: center;
+     }
+     
+       
+       @media (min-width : 768px){
+           .bar_size{
+               width : 50%;
+               }
+           }
+      .sticky-footer{
+        position: sticky;
+        top: 100%;
+      }
+           
+       </style>
+  </head>
+
+  <body class="light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('weather_data') }}" >Group Three <span class="text-warning">Weather Report</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">Menu
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="menu">
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link text-warning" href="{{ url_for('all_weather_report') }}">All Weather Report</a>
+                <a class="nav-link text-warning" href="{{ url_for('about') }}">
+                <i class="bi bi-file-earmark-person-fill"></i> About This Project</a>
+            </div>
+        </div>
+    </div>
+
+    </nav>
+
+
+
+
+  <body>
+    <div class="container align-items-center">
+      <h1  class="text-center">Weather Forecast Report</h1>
+    </div>
+    <br>
+    <br>
+    <br>
+    
+    <div class="container">  
+      <form method="POST">
+        <div class="form-group row justify-content-center">
+          <label for="city" class="col-sm-2 col-form-label"><h4>City:</h4></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="city" name="city" placeholder="Enter City...">
+          </div>
+          <div class="col-sm-2">
+            <button type="submit" class="btn btn-dark">Search</button>
+          </div>
+        </div>
+      </form>
+      {% if city %}
+        <h4 class="text-center">Date : {{ data_result[0][1] }}</h4>
+        <h4 class="text-center">City : {{ data_result[0][0] }}</h4>
+        <h4 class="text-center">Condition : {{ data_result[0][2] }}</h4>
+        <h4 class="text-center">Description : {{ data_result[0][3] }}</h4>
+        <h4 class="text-center">Temperature : {{ data_result[0][4] }}°C</h4>
+        <h4 class="text-center">Humidity : {{ data_result[0][5] }}g/m³</h4>
+        <h4 class="text-center">Pressure : {{ data_result[0][6] }}Pa</h4>
+        <h4 class="text-center">Wind Speed : {{ data_result[0][7] }}m/s</h4>
+        <div class="form-group row justify-content-center">
+          <a href="{{ url_for('all_weather_report') }}">
+          <button class="btn btn-outline-dark text-warning">Show All Weather Report</button>
+        </a>
+        </div>
+          </div>
+      {% else %}
+        <h2 class="text-center">Nothing To Display At The Moment</h2>
+        <div class="jumbotron">
+          <h1 class="display-4">Hello, No Weather Report Found</h1>
+          <p class="lead">You are seeing this notice just to inform you that you are yet to retrieve
+            weather forcast report for your searched city, if this notice keeps displaying,please do check on your internet connection.</p>
+          <hr class="my-4">
+          <p>Type a city in the search bar and click on the search button to display weather forcast report for that particular city entered.</p>
+          <p>Please do note that every successful searched result displayed is stored in our database, you can checkout what record(s) is/are available in our database
+            by clicking on the button bellow</p>
+          <a class="btn btn-outline-dark btn-lg" href="{{ url_for('all_weather_report') }}" role="button">Go To Database</a>
+      </div>
+      {% endif %}
+
+    </div>
+    <br>
+    <br>
+    
+    <br>
+
+    <footer class="bg-warning text-center text-light sticky-footer">
+     
+      <div class="container">
+       
+        <section class="p-4">
+          <a class="btn btn-danger m-1" href="https://youtube.com">Youtube</a>
+          <a class="btn btn-primary m-1" href="https://twitter.com" role="button">Twitter</a>
+          <a class="btn btn-dark m-1" href="{{ github }}">Github</a>
+        </section>
+      </div>
+      <div class="text-center p-3 bg-dark">
+        © 2023 Copyright:
+        <a class="navbar-brand" href="{{ url_for('weather_data') }}" ><span class="text-light">Group Three MiniProject 4 By: </span><span class="text-warning">BCICT20011 <span class="text-light">And</span> BCICT20129</span></a>
+      </div>
+    </footer>
+
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+  </body>
+</html>

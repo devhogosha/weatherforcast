@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Forecast Report</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+ <style>
+    body{
+        min-height : 100vh;
+        text-align: center;
+     }
+     
+       
+       @media (min-width : 768px){
+           .bar_size{
+               width : 50%;
+               }
+           }
+          
+      .sticky-footer{
+        position: sticky;
+        top: 100%;
+      }
+           
+       </style>
+  </head>
+
+
+
+
+
+  <body class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('weather_data') }}" >Ho<span class="text-warning">me</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">Menu
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="menu">
+                <div class="navbar-nav">
+                    <a class="nav-link text-warning" href="{{ url_for('about') }}">About This Project</a>
+                </div>
+            </div>
+        </div>
+        </nav>
+
+    <h4><u>DAILY WEATHER FORCAST REPORT</u></h4>
+    <br>
+    <br>
+    <br>
+    {% for message_alert in get_flashed_messages() %}
+    <div class="alert alert-warning" role="alert">
+      <strong>{{ message_alert }}</strong>
+    </div>
+    {% endfor %}
+    <br>
+    <br>
+    <br>
+
+    {% if all_weather_data %}
+    <form action="/delete" method="post">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">City</th>
+          <th scope="col">Date/Time</th>
+          <th scope="col">Condition</th>
+          <th scope="col">Description</th>
+          <th scope="col">Temperature(°C)</th>
+          <th scope="col">Humidity(g/m³)</th>
+          <th scope="col">Pressure(Pa)</th>
+          <th scope="col">Wind Speed(m/s)</th>
+          <th scope="col">Select</th>
+
+        </tr>
+      </thead>
+        <tbody>
+          {% for row in all_weather_data %}
+          <tr>
+            {% for cell in row %}
+            <td>{{ cell }}</td>
+            {% endfor %}
+            <td><input type="checkbox" name="city_id" value="{{ row[0] }}"></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+  </table>
+  <button class="btn btn-danger" type="submit">Delete Selected</button>
+    </form>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+  
+    <section>
+        <div class="container wrap">
+          <h4 class="text-center">Select Two Or More Cities To Plot</h4>
+          <form action="/plot" method="POST">
+            <div class="row">
+            <div class="col-sm-6">
+              <select name="option" class="selectpicker" data-live-search="true" multiple>
+                  {% for row in all_weather_data %}
+                  <option value="{{ row[0] }}">{{ row[0] }}</option>     
+                  {% endfor %}
+              </select>
+              </div>
+              <div class="col-sm-6">
+              <select name="select_plot" class="selectpicker" data-live-search="true">
+                  {% for graph_name in graph_names %}
+                  <option value="{{ graph_name }}">{{ graph_name }}</option>     
+                  {% endfor %}
+              </select>
+            </div>
+            </div>
+              <button class="btn btn-warning" type="submit">Plot Selected</button>
+          </form>
+            </section>
+            
+
+    {% else %}
+    <div class="jumbotron">
+        <h1 class="display-4">Hello, User</h1>
+        <p class="lead">You are seeing this notice just to inform you that there is no data in our database to retrieve
+          weather forcast report for most of the cities around the world.</p>
+        <hr class="my-4">
+        <p>You can click on the button beloww to add a city or more into our database to display weather forcast report for that particular city by typing
+          in the entry field and clicking on the search button on our home page.</p>
+        <a class="btn btn-primary btn-lg" href="{{ url_for('weather_data') }}" role="button">Home</a>
+    </div>
+    {% endif %}
+
+
+
+    <footer class="bg-warning text-center text-light sticky-footer">
+      
+      <!-- Copyright -->
+      <div class="text-center p-3 bg-dark">
+        © 2023 Copyright:
+        <a class="navbar-brand" href="{{ url_for('weather_data') }}" ><span class="text-light">Group Three MiniProject 4 By: </span><span class="text-warning">BCICT20011 <span class="text-light">And</span> BCICT20129</span></a>
+      </div>
+      <!-- Copyright -->
+    </footer>
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+  </body>
+  </html>

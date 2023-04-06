@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <style>
+        body{
+        min-height : 100vh;
+        text-align: center;
+     }
+       @media (min-width : 768px){
+           .bar_size{
+               width : 50%;
+               }
+           }
+          
+      .sticky-footer{
+        position: sticky;
+        top: 100%;
+      }
+    </style>
+
+
+</head>
+<body class="container-fluid">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('weather_data') }}" >Ho<span class="text-warning">me</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">Menu
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="menu">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link text-warning" href="{{ url_for('all_weather_report') }}">All Weather Report</a>
+                    <a class="nav-link text-warning" href="{{ url_for('about') }}">
+                    <i class="bi bi-file-earmark-person-fill"></i> About This Project</a>
+                </div>
+            </div>
+        </div>
+    
+        </nav>
+        <br>
+    <br>
+    <h1>{{ ploty.title() }}</h1>
+    
+    <br>
+    <br>
+    <div>
+        {{ script | safe }}
+        {{ div | safe }}
+    </div>
+<br>
+<br>
+
+    
+<script src="{{url_for('static',filename='js/bokeh-3.1.0.min.js')}}"></script>
+</body>
+</html>
